@@ -2,12 +2,15 @@ import removeIcon from '../../assets/img/remove.svg'
 
 import classes from './TaskList.module.scss'
 
-export const TaskList = ({ items, isRemovable = false, onNewTaskClick, onRemoveIconClick }) => (
+export const TaskList = ({ items, isRemovable = false, onNewTaskClick, onRemoveIconClick, onItemClick, activeList }) => (
    <ul onClick={onNewTaskClick} className={classes.list}>
 
       {items.map((item, index) => (
-         <li key={index} className={[item.active && classes.active, item.btn && classes.btn].join(' ')}>
-
+         <li
+            key={index}
+            className={[activeList && activeList.id === item.id && classes.active, item.btn && classes.btn].join(' ')}
+            onClick={() => onItemClick(item)}
+         >
             <div>
                {item.colorId
                   ? <span className={classes.circle} style={{ backgroundColor: item.color.hex }}></span>
@@ -17,13 +20,13 @@ export const TaskList = ({ items, isRemovable = false, onNewTaskClick, onRemoveI
                }
             </div>
 
-            <span>{item.name}</span>
+            <span>{item.name}{item.tasks && item.tasks.length > 0 && ` (${item.tasks.length})`}</span>
 
             {isRemovable && <img src={removeIcon} alt="remove icon" onClick={() => onRemoveIconClick(item.id)} />}
          </li>
       ))}
 
-   </ul>
+   </ul >
 )
 
 

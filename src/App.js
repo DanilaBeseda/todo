@@ -10,6 +10,7 @@ import classes from './App.module.scss'
 function App() {
   const [lists, setLists] = useState(null)
   const [colors, setColors] = useState(null)
+  const [activeList, setActiveList] = useState(null)
   const allTasks = [{ color: null, name: 'Все задачи', icon: 'list', active: true }]
   const newTask = [{ color: null, name: 'Новый список', icon: 'plus', btn: true }]
 
@@ -35,21 +36,31 @@ function App() {
     }
   }
 
+  function listClickHandler(item) {
+    setActiveList(item)
+  }
+
   return (
     <div className={classes.todo}>
 
       <div className={classes.sidebar}>
         <TaskList items={allTasks} />
         {lists
-          ? <TaskList items={lists} isRemovable onRemoveIconClick={removeHandler} />
-          : 'Загрузка...'
+          ? <TaskList
+            items={lists}
+            isRemovable
+            onRemoveIconClick={removeHandler}
+            onItemClick={listClickHandler}
+            activeList={activeList}
+          />
+          : <div className={classes.loading}>...</div>
         }
         {colors && <NewList colors={colors} newTask={newTask} addList={addList} />}
       </div>
 
       <main className={classes.main}>
         {lists
-          ? <Tasks list={lists[1]} />
+          ? activeList && <Tasks list={activeList} />
           : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
         }
       </main>
