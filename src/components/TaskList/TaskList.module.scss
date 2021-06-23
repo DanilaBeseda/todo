@@ -1,0 +1,78 @@
+.list {
+   margin-bottom: 30px;
+   &:nth-child(3) {
+      margin-bottom: 10px;
+   }
+
+   & li {
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      margin-bottom: 5px;
+
+      transition: padding 0.3s ease;
+      &:hover {
+         background-color: #f1f1f1;
+         & > img {
+            opacity: 0.3;
+            visibility: visible;
+         }
+      }
+      &.active {
+         background: #ffffff;
+         box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
+         border-radius: 4px;
+         padding: 10px 12px;
+      }
+      & > div {
+         & svg {
+            margin-right: 10px;
+         }
+         & .circle {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50% 50%;
+            margin-right: 14px;
+         }
+      }
+      & > span {
+         flex: 1;
+         text-align: left;
+         font-size: 14px;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         overflow: hidden;
+      }
+      & > img {
+         width: 15px;
+         height: 15px;
+         padding: 3px;
+         opacity: 0;
+         visibility: hidden;
+         user-select: none;
+         &:hover {
+            opacity: 1;
+         }
+      }
+   }
+
+   & .btn {
+      user-select: none;
+      & > span {
+         color: #767676;
+      }
+      &:hover {
+         & svg {
+            path {
+               stroke: #000;
+            }
+         }
+         & > span {
+            color: #000;
+         }
+      }
+   }
+}

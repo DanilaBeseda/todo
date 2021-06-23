@@ -1,0 +1,15 @@
+.btnAdd {
+   background: #4dd599;
+   border-radius: 4px;
+   color: #fff;
+   text-align: center;
+
+   height: 32px;
+   width: 197px;
+   &:hover {
+      background-color: darken(#4dd599, 8%);
+   }
+   &:active {
+      background-color: darken(#4dd599, 12%);
+   }
+}

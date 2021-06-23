@@ -1,0 +1,88 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6749d4 0%, #5ad9e6 100%);
+}
+
+* {
+  font-family: "Roboto", -apple-system, system-ui, sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+//-reset styles--------------------------------------------------------
+html {
+  box-sizing: border-box; //border-box для всех элементов
+}
+body {
+  line-height: 1; //расстояние между строками по умолчанию 1
+}
+* {
+  padding: 0;
+  margin: 0;
+  border: 0; //убирает встроенные отступы и бордеры у всех элементов
+}
+
+ul li {
+  list-style: none; //удаляет дефолтные стили у списков
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent; //удаляет выделение голубым цветом при нажатии на ссылки на телефонах
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit; //наследование всеми элементами свойства box-sizing
+}
+
+button {
+  cursor: pointer; //изменение курсора при наведении на кнопки
+}
+
+:focus,
+:active {
+  outline: none; //убирает у input элементов обводку при нажатии
+}
+
+a,
+a:visited,
+a:hover {
+  text-decoration: none; // удаляет встроенные подчёркивания и т.д. для ссылок, посещённых ссылок и при наведении на ссылку
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  font-style: normal;
+  line-height: normal;
+}
+/*
+img {
+  min-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+*/
