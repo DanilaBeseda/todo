@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import { TaskList } from './components/TaskList/TaskList'
 import { NewList } from './components/NewList/NewList'
@@ -13,6 +14,8 @@ function App() {
   const [activeList, setActiveList] = useState(null)
   const allTasks = [{ color: null, name: 'Все задачи', icon: 'list', active: true }]
   const newTask = [{ color: null, name: 'Новый список', icon: 'plus', btn: true }]
+  let history = useHistory()
+  let location = useLocation()
 
   useEffect(() => {
     axios.get('http://localhost:3001/lists?_expand=color&_embed=tasks').then(({ data }) => {
@@ -22,6 +25,14 @@ function App() {
       setColors(data)
     })
   }, [])
+
+  useEffect(() => {
+    const listId = location.pathname.split('lists/')[1]
+    if (lists) {
+      const list = lists.find(list => list.id === Number(listId))
+      setActiveList(list)
+    }
+  }, [location.pathname, lists])
 
   function addList(newList) {
     setLists([...lists, newList])
@@ -49,10 +60,6 @@ function App() {
         setLists(cloneLists)
       })
     }
-  }
-
-  function listClickHandler(item) {
-    setActiveList(item)
   }
 
   function titleHandler(id, defaultName) {
@@ -87,12 +94,12 @@ function App() {
     <div className={classes.todo}>
 
       <div className={classes.sidebar}>
-        <TaskList items={allTasks} />
+        <TaskList items={allTasks} onClickItem={() => history.push(`/`)} />
         {lists
           ? <TaskList
             items={lists}
             onClickRemoveIcon={removeHandler}
-            onClickItem={listClickHandler}
+            onClickItem={list => history.push(`/lists/${list.id}`)}
             activeList={activeList}
             isRemovable
           />
@@ -102,10 +109,23 @@ function App() {
       </div>
 
       <main className={classes.main}>
-        {lists
-          ? activeList && <Tasks list={activeList} onEditTitle={titleHandler} onAddTask={addTask} />
-          : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
-        }
+        <Route exact path="/">
+          {lists && lists.map(list => (
+            <Tasks
+              key={list.id}
+              list={list}
+              onEditTitle={titleHandler}
+              onAddTask={addTask}
+              isAllTasks
+            />
+          ))}
+        </Route>
+        <Route path="/lists/:id">
+          {lists
+            ? activeList && <Tasks list={activeList} onEditTitle={titleHandler} onAddTask={addTask} />
+            : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
+          }
+        </Route>
       </main>
     </div>
   )

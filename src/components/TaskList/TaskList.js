@@ -8,7 +8,7 @@ export const TaskList = ({ items, isRemovable = false, onClickNewTask, onClickRe
       {items.map((item, index) => (
          <li
             key={index}
-            className={[activeList && activeList.id === item.id && classes.active, item.btn && classes.btn].join(' ')}
+            className={[(item.active && classes.active) || (activeList && activeList.id === item.id && classes.active), item.btn && classes.btn].join(' ')}
             onClick={() => onClickItem(item)}
          >
             <div>
