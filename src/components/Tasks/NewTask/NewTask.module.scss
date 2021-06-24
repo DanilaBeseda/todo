@@ -1,0 +1,55 @@
+.addTask {
+   margin-top: 16px;
+   padding: 4px;
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+   width: 146px;
+   &:hover {
+      background-color: #f9f7f7;
+      border-radius: 4px;
+      & img {
+         opacity: 1;
+      }
+      & span {
+         color: rgb(70, 70, 70);
+      }
+   }
+   & img {
+      width: 15px;
+      height: 15px;
+      margin-right: 16px;
+
+      opacity: 0.6;
+   }
+   & span {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      letter-spacing: 0.15px;
+
+      color: #b4b4b4;
+   }
+}
+
+.form {
+   margin-top: 20px;
+   & .cancel {
+      background-color: #f4f6f8;
+      border-radius: 4px;
+      color: #9c9c9c;
+      text-align: center;
+
+      height: 32px;
+      width: 90px;
+      margin-left: 10px;
+      &:hover {
+         background-color: darken(#f4f6f8, 8%);
+      }
+      &:active {
+         background-color: darken(#f4f6f8, 12%);
+      }
+   }
+}

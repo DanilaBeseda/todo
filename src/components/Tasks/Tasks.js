@@ -1,14 +1,16 @@
+import { NewTask } from './NewTask/NewTask'
+
 import editIcon from '../../assets/img/edit.svg'
 
 import classes from './Tasks.module.scss'
 
-export const Tasks = ({ list }) => {
+export const Tasks = ({ list, onEditTitle, onAddTask }) => {
    return (
       <>
          <div className={classes.tasks}>
             <h2 style={{ color: list.color.hex }}>
                {list.name}
-               <img src={editIcon} alt="Edit icon" />
+               <img onClick={() => onEditTitle(list.id, list.name)} src={editIcon} alt="Edit icon" />
             </h2>
 
             <div className={classes.items}>
@@ -32,6 +34,7 @@ export const Tasks = ({ list }) => {
                   : <span className={classes.emptyList}>Задачи отсутствуют</span>
                }
             </div>
+            <NewTask list={list} onAddTask={onAddTask} />
          </div>
       </>
    )

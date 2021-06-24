@@ -37,7 +37,7 @@ export const NewList = ({ colors, newTask, addList }) => {
       if (!inputValue.length) {
          alert('Введите название списка')
          return
-      } else if (inputValue.length > 16) {
+      } else if (inputValue.length > 24) {
          alert('Слишком длинное название списка')
          return
       }
@@ -55,7 +55,7 @@ export const NewList = ({ colors, newTask, addList }) => {
 
    return (
       <>
-         <TaskList items={newTask} onNewTaskClick={() => setVisiblePopup(true)} />
+         <TaskList items={newTask} onClickNewTask={() => setVisiblePopup(true)} />
          {visiblePopup && <div className={classes.popup} >
             <img src={closeIcon} alt="close icon" onClick={reset} />
 

@@ -27,6 +27,21 @@ function App() {
     setLists([...lists, newList])
   }
 
+  function addTask(listId, newTask) {
+    axios.post('http://localhost:3001/tasks', newTask).then(({ data }) => {
+      const cloneLists = lists.map(list => {
+        if (list.id === listId) {
+          list.tasks = [...list.tasks, data]
+        }
+        return list
+      })
+      setLists(cloneLists)
+    }).catch(err => {
+      console.error(err)
+      alert('Не удалось добавить задачу')
+    })
+  }
+
   function removeHandler(id) {
     if (window.confirm('Вы действительно хотите удалить список?')) {
       axios.delete('http://localhost:3001/lists/' + id).then(() => {
@@ -40,6 +55,34 @@ function App() {
     setActiveList(item)
   }
 
+  function titleHandler(id, defaultName) {
+    const newListName = window.prompt('Введите новое название', defaultName)
+    if (newListName === null) return
+
+    if (newListName === '') {
+      alert('Поле не должно оставаться пустым')
+      return
+    } else if (newListName.length > 24) {
+      alert('Слишком длинное название')
+      return
+    }
+
+    const cloneLists = lists.map(list => {
+      if (list.id === id) {
+        list.name = newListName
+      }
+      return list
+    })
+
+    axios.patch('http://localhost:3001/lists/' + id, { name: newListName }).then(() => {
+      setLists(cloneLists)
+    }).catch(err => {
+      console.error(err)
+      alert('Не удалось обновить название')
+    })
+
+  }
+
   return (
     <div className={classes.todo}>
 
@@ -48,10 +91,10 @@ function App() {
         {lists
           ? <TaskList
             items={lists}
-            isRemovable
-            onRemoveIconClick={removeHandler}
-            onItemClick={listClickHandler}
+            onClickRemoveIcon={removeHandler}
+            onClickItem={listClickHandler}
             activeList={activeList}
+            isRemovable
           />
           : <div className={classes.loading}>...</div>
         }
@@ -60,7 +103,7 @@ function App() {
 
       <main className={classes.main}>
         {lists
-          ? activeList && <Tasks list={activeList} />
+          ? activeList && <Tasks list={activeList} onEditTitle={titleHandler} onAddTask={addTask} />
           : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
         }
       </main>
