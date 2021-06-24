@@ -30,7 +30,7 @@ function App() {
     const listId = location.pathname.split('lists/')[1]
     if (lists) {
       const list = lists.find(list => list.id === Number(listId))
-      setActiveList(list)
+      setActiveList(list.id)
     }
   }, [location.pathname, lists])
 
@@ -121,8 +121,9 @@ function App() {
           ))}
         </Route>
         <Route path="/lists/:id">
+          {lists && console.log(lists[activeList - 1])}
           {lists
-            ? activeList && <Tasks list={activeList} onEditTitle={titleHandler} onAddTask={addTask} />
+            ? activeList && <Tasks list={lists[activeList - 1]} onEditTitle={titleHandler} onAddTask={addTask} />
             : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
           }
         </Route>

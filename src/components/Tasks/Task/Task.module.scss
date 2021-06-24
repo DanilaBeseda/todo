@@ -2,6 +2,14 @@
    display: flex;
    align-items: center;
    margin-bottom: 20px;
+   &:hover {
+      & .btns {
+         & .edit,
+         & .remove {
+            opacity: 0.4;
+         }
+      }
+   }
    &:last-child {
       margin-bottom: 0;
    }
@@ -51,7 +59,29 @@
       font-weight: 400;
       font-size: 16px;
       line-height: 19px;
+      margin-right: 10px;
 
       width: 100%;
+   }
+
+   & .btns {
+      display: flex;
+      align-items: center;
+
+      & .edit {
+         background-color: transparent;
+         margin-right: 15px;
+         opacity: 0;
+         &:hover {
+            opacity: 0.8;
+         }
+      }
+      & .remove {
+         background-color: transparent;
+         opacity: 0;
+         &:hover {
+            opacity: 0.8;
+         }
+      }
    }
 }

@@ -8,18 +8,15 @@
    &:hover {
       background-color: #f9f7f7;
       border-radius: 4px;
-      & img {
+      & svg {
          opacity: 1;
       }
       & span {
          color: rgb(70, 70, 70);
       }
    }
-   & img {
-      width: 15px;
-      height: 15px;
+   & svg {
       margin-right: 16px;
-
       opacity: 0.6;
    }
    & span {
