@@ -7,6 +7,7 @@ import { NewList } from './components/NewList/NewList'
 import { Tasks } from './components/Tasks/Tasks'
 
 import classes from './App.module.scss'
+import loadingCls from './commonStyles/loadingAnimation.module.scss'
 
 function App() {
   const [lists, setLists] = useState(null)
@@ -28,7 +29,8 @@ function App() {
 
   useEffect(() => {
     const listId = location.pathname.split('lists/')[1]
-    if (lists) {
+
+    if (lists && listId) {
       const list = lists.find(list => list.id === Number(listId))
       setActiveList(list.id)
     }
@@ -38,7 +40,7 @@ function App() {
     setLists([...lists, newList])
   }
 
-  function addTask(listId, newTask) {
+  function addTask(listId, newTask, setIsLoading, setIsVisible) {
     axios.post('http://localhost:3001/tasks', newTask).then(({ data }) => {
       const cloneLists = lists.map(list => {
         if (list.id === listId) {
@@ -47,13 +49,15 @@ function App() {
         return list
       })
       setLists(cloneLists)
+      setIsLoading(false)
+      setIsVisible(false)
     }).catch(err => {
       console.error(err)
       alert('Не удалось добавить задачу')
     })
   }
 
-  function removeHandler(id) {
+  function removeListHandler(id) {
     if (window.confirm('Вы действительно хотите удалить список?')) {
       axios.delete('http://localhost:3001/lists/' + id).then(() => {
         const cloneLists = lists.filter(item => (item.id !== id))
@@ -62,7 +66,27 @@ function App() {
     }
   }
 
-  function titleHandler(id, defaultName) {
+  function removeTaskHandler(listId, taskId, setIsLoading) {
+    axios.delete('http://localhost:3001/tasks/' + taskId).then(() => {
+      const cloneList = lists.map(list => {
+        if (list.id === listId) {
+          list.tasks = list.tasks.filter(task => task.id !== taskId)
+        }
+        return list
+      })
+      setLists(cloneList)
+      setIsLoading(false)
+    }).catch((err) => {
+      console.error(err)
+      alert('Не удалось удалить задачу')
+    })
+  }
+
+  function editTaskHandler(listId, taskId, value) {
+
+  }
+
+  function editTitleHandler(id, defaultName) {
     const newListName = window.prompt('Введите новое название', defaultName)
     if (newListName === null) return
 
@@ -98,12 +122,12 @@ function App() {
         {lists
           ? <TaskList
             items={lists}
-            onClickRemoveIcon={removeHandler}
+            onClickRemoveIcon={removeListHandler}
             onClickItem={list => history.push(`/lists/${list.id}`)}
             activeList={activeList}
             isRemovable
           />
-          : <div className={classes.loading}>...</div>
+          : <div className={loadingCls.loading}></div>
         }
         {colors && <NewList colors={colors} newTask={newTask} addList={addList} />}
       </div>
@@ -114,16 +138,16 @@ function App() {
             <Tasks
               key={list.id}
               list={list}
-              onEditTitle={titleHandler}
+              onEditTitle={editTitleHandler}
               onAddTask={addTask}
               isAllTasks
             />
           ))}
         </Route>
         <Route path="/lists/:id">
-          {lists && console.log(lists[activeList - 1])}
+
           {lists
-            ? activeList && <Tasks list={lists[activeList - 1]} onEditTitle={titleHandler} onAddTask={addTask} />
+            ? activeList && <Tasks list={lists[activeList - 1]} onEditTitle={editTitleHandler} onAddTask={addTask} onRemoveTask={removeTaskHandler} onEditTask={editTaskHandler} />
             : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
           }
         </Route>

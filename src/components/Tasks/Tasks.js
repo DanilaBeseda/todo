@@ -5,7 +5,7 @@ import editIcon from '../../assets/img/edit.svg'
 
 import classes from './Tasks.module.scss'
 
-export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks }) => {
+export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, onEditTask }) => {
    return (
       <>
          <div className={classes.tasks}>
@@ -17,7 +17,7 @@ export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks }) => {
             <div className={classes.items}>
 
                {list.tasks.length
-                  ? <Task list={list} />
+                  ? <Task list={list} onRemoveTask={onRemoveTask} onEditTask={onEditTask} />
                   : !isAllTasks && <span className={classes.emptyList}>Задачи отсутствуют</span>
                }
             </div>

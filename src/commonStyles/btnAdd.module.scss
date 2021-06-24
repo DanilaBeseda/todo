@@ -13,3 +13,20 @@
       background-color: darken(#4dd599, 12%);
    }
 }
+
+.btnCancel {
+   background-color: #f4f6f8;
+   border-radius: 4px;
+   color: #9c9c9c;
+   text-align: center;
+
+   height: 32px;
+   width: 90px;
+   margin-left: 10px;
+   &:hover {
+      background-color: darken(#f4f6f8, 8%);
+   }
+   &:active {
+      background-color: darken(#f4f6f8, 12%);
+   }
+}

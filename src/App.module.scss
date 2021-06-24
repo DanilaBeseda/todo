@@ -26,17 +26,3 @@
       position: relative;
    }
 }
-
-.loading {
-   font-size: 35px;
-   overflow: hidden;
-   display: inline-block;
-   width: 0px;
-   animation: ellipsis steps(4, end) 1.2s infinite;
-}
-
-@keyframes ellipsis {
-   to {
-      width: 1em;
-   }
-}

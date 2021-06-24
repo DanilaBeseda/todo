@@ -51,12 +51,6 @@
       "completed": true
     },
     {
-      "id": 4,
-      "listId": 2,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
-    },
-    {
       "listId": 1,
       "text": "dsfasf",
       "completed": false,
