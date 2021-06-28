@@ -4,6 +4,11 @@
       margin-bottom: 10px;
    }
 
+   &.listItems {
+      max-height: 300px;
+      overflow: auto;
+   }
+
    & li {
       cursor: pointer;
 

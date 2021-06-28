@@ -18,7 +18,7 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
    function removeTask(listId, taskId) {
       if (window.confirm('Вы действительно хотите удалить задачу?')) {
          setIsLoading(true)
-         onRemoveTask(listId, taskId, setIsLoading)
+         onRemoveTask(listId, taskId)
       }
    }
 
@@ -33,7 +33,7 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
       textareaRef.current.readOnly = true
       textareaRef.current.style.border = 'none'
 
-      onConfirm(listId, taskId, inputValue, setIsLoading)
+      onConfirm(listId, taskId, inputValue)
    }
 
    return (

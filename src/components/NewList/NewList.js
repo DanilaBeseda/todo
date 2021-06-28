@@ -44,7 +44,8 @@ export const NewList = ({ colors, newTask, addList }) => {
 
       axios.post('http://localhost:3001/lists', { name: inputValue, colorId: selectedColor }).then(({ data }) => {
          const color = colors.find(color => color.id === data.colorId)
-         addList({ ...data, color })
+         const tasks = []
+         addList({ ...data, tasks, color })
          reset()
       }).finally(() => {
          setLoading(false)

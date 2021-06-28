@@ -22,7 +22,6 @@ export const NewTask = ({ list, onAddTask }) => {
          text: inputValue,
          completed: false
       }
-
       onAddTask(list.id, task, setIsLoading, setIsVisible)
    }
 

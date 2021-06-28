@@ -1,6 +1,6 @@
 .todo {
-   width: 750px;
-   min-height: 530px;
+   width: 900px;
+   height: 530px;
    box-shadow: 5px 5px 5px 0px #d8d5d5;
    border-radius: 10px;
    border: 1px solid #f1f1f1;
@@ -8,7 +8,7 @@
    background-color: #fff;
    & .sidebar {
       background-color: #f4f6f8;
-      min-width: calc(750px * 0.27);
+      min-width: calc(900px * 0.27);
       min-height: 100%;
       border-right: 1px solid #f1f1f1;
       text-align: center;
