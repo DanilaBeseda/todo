@@ -6,13 +6,13 @@ import loadingCls from '../../../commonStyles/loadingAnimation.module.scss'
 export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLoading }) => {
    const [isEdit, setIsEdit] = useState(false)
    const [inputValue, setInputValue] = useState(task.text)
-   const inputRef = useRef(null)
+   const textareaRef = useRef(null)
 
    function editTask() {
       setIsEdit(true)
-      inputRef.current.readOnly = false
-      inputRef.current.focus()
-      inputRef.current.style.border = '1px solid #ccc'
+      textareaRef.current.readOnly = false
+      textareaRef.current.focus()
+      textareaRef.current.style.border = '1px solid #ccc'
    }
 
    function removeTask(listId, taskId) {
@@ -23,11 +23,15 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
    }
 
    function confirmEditTask(listId, taskId) {
+      if (!inputValue) {
+         alert('Введите задачу')
+         return
+      }
       setIsEdit(false)
       setIsLoading(true)
 
-      inputRef.current.readOnly = true
-      inputRef.current.style.border = 'none'
+      textareaRef.current.readOnly = true
+      textareaRef.current.style.border = 'none'
 
       onConfirm(listId, taskId, inputValue, setIsLoading)
    }
@@ -43,7 +47,7 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
                   </svg>
                </label>
             </div>
-            <input ref={inputRef} readOnly value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+            <textarea rows="1" resize="none" ref={textareaRef} readOnly value={inputValue} onChange={(e) => setInputValue(e.target.value)}></textarea>
             {!isLoading
                ? <div className={classes.btns}>
                   {!isEdit

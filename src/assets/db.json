@@ -45,14 +45,14 @@
       "completed": false
     },
     {
-      "id": 3,
       "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": false
+      "text": "sfasdfas",
+      "completed": false,
+      "id": 3
     },
     {
       "listId": 2,
-      "text": "Задача",
+      "text": "dsfagsdafads",
       "completed": false,
       "id": 4
     }

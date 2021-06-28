@@ -14,9 +14,6 @@ export const NewTask = ({ list, onAddTask }) => {
       if (!inputValue) {
          alert('Введите задачу')
          return
-      } else if (inputValue.length > 80) {
-         alert('Слишком длинная задача, разбейте на несколько подзадач')
-         return
       }
       setIsLoading(true)
 
