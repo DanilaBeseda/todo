@@ -13,6 +13,7 @@ function App() {
   const [lists, setLists] = useState(null)
   const [colors, setColors] = useState(null)
   const [activeList, setActiveList] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const allTasks = [{ color: null, name: 'Все задачи', icon: 'list', active: true }]
   const newTask = [{ color: null, name: 'Новый список', icon: 'plus', btn: true }]
   let history = useHistory()
@@ -66,24 +67,20 @@ function App() {
     }
   }
 
-  function removeTaskHandler(listId, taskId, setIsLoading) {
+  function removeTaskHandler(listId, taskId) {
     axios.delete('http://localhost:3001/tasks/' + taskId).then(() => {
-      const cloneList = lists.map(list => {
+      const cloneLists = lists.map(list => {
         if (list.id === listId) {
           list.tasks = list.tasks.filter(task => task.id !== taskId)
         }
         return list
       })
-      setLists(cloneList)
+      setLists(cloneLists)
       setIsLoading(false)
     }).catch((err) => {
       console.error(err)
       alert('Не удалось удалить задачу')
     })
-  }
-
-  function editTaskHandler(listId, taskId, value) {
-
   }
 
   function editTitleHandler(id, defaultName) {
@@ -112,6 +109,27 @@ function App() {
       alert('Не удалось обновить название')
     })
 
+  }
+
+  function confirmEditTaskHandler(listId, taskId, value) {
+    axios.patch('http://localhost:3001/tasks/' + taskId, { text: value }).then(() => {
+      const cloneLists = lists.map(list => {
+        if (list.id === listId) {
+          list.tasks.map(task => {
+            if (task.id === taskId) {
+              task.text = value
+            }
+            return task
+          })
+        }
+        return list
+      })
+      setLists(cloneLists)
+      setIsLoading(false)
+    }).catch((err) => {
+      console.error(err)
+      alert('Не удалочь изменить текст задачи')
+    })
   }
 
   return (
@@ -147,7 +165,15 @@ function App() {
         <Route path="/lists/:id">
 
           {lists
-            ? activeList && <Tasks list={lists[activeList - 1]} onEditTitle={editTitleHandler} onAddTask={addTask} onRemoveTask={removeTaskHandler} onEditTask={editTaskHandler} />
+            ? activeList && <Tasks
+              list={lists[activeList - 1]}
+              onEditTitle={editTitleHandler}
+              onAddTask={addTask}
+              onRemoveTask={removeTaskHandler}
+              onConfirm={confirmEditTaskHandler}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
             : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
           }
         </Route>

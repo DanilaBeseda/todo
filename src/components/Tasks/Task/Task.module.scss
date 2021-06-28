@@ -60,6 +60,7 @@
       font-size: 16px;
       line-height: 19px;
       margin-right: 20px;
+      cursor: default;
 
       width: 100%;
    }
@@ -79,6 +80,13 @@
       & .remove {
          background-color: transparent;
          opacity: 0;
+         &:hover {
+            opacity: 0.8;
+         }
+      }
+      & .confirm {
+         background-color: transparent;
+         opacity: 0.5;
          &:hover {
             opacity: 0.8;
          }

@@ -71,7 +71,7 @@ export const NewList = ({ colors, newTask, addList }) => {
                />
             </ul>
 
-            <button onClick={addBtnHandler} className={btnCls.btnAdd}>{loading ? 'Добавление...' : 'Добавить'}</button>
+            <button onClick={addBtnHandler} className={btnCls.btnAdd} >{loading ? 'Добавление...' : 'Добавить'}</button>
          </div>}
       </>
    )

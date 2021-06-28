@@ -48,13 +48,13 @@
       "id": 3,
       "listId": 2,
       "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": true
+      "completed": false
     },
     {
-      "listId": 1,
-      "text": "dsfasf",
+      "listId": 2,
+      "text": "Задача",
       "completed": false,
-      "id": 5
+      "id": 4
     }
   ],
   "colors": [
