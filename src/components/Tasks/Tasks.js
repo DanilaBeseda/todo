@@ -5,7 +5,7 @@ import editIcon from '../../assets/img/edit.svg'
 
 import classes from './Tasks.module.scss'
 
-export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, onConfirm, isLoading, setIsLoading }) => (
+export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, onConfirm, isLoading, setIsLoading, onCompleteTask }) => (
    <div className={classes.tasks} >
       {list.color && <h2 style={{ color: list.color.hex }}>
          {list.name}
@@ -23,6 +23,7 @@ export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, 
                   onConfirm={onConfirm}
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
+                  onCompleteTask={onCompleteTask}
                />
             ))
             : !isAllTasks && <span className={classes.emptyList}>Задачи отсутствуют</span>

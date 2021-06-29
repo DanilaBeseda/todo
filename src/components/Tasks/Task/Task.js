@@ -3,9 +3,10 @@ import { useState, useRef } from 'react'
 import classes from './Task.module.scss'
 import loadingCls from '../../../commonStyles/loadingAnimation.module.scss'
 
-export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLoading }) => {
+export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLoading, onCompleteTask }) => {
    const [isEdit, setIsEdit] = useState(false)
    const [inputValue, setInputValue] = useState(task.text)
+   const [isCompleted, setIsCompleted] = useState(task.completed)
    const textareaRef = useRef(null)
 
    function editTask() {
@@ -36,11 +37,16 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
       onConfirm(listId, taskId, inputValue)
    }
 
+   function onCompleted() {
+      setIsCompleted(!isCompleted)
+      onCompleteTask(task.id, !isCompleted)
+   }
+
    return (
       <>
          <div className={classes.item}>
             <div className={classes.checkbox}>
-               <input id={task.id} type="checkbox" />
+               <input id={task.id} type="checkbox" onChange={onCompleted} checked={isCompleted} />
                <label htmlFor={task.id}>
                   <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

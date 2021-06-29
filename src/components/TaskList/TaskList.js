@@ -4,7 +4,6 @@ import classes from './TaskList.module.scss'
 
 export const TaskList = ({ active, items, isRemovable = false, onClickNewTask, onClickRemoveIcon, onClickItem, activeList }) => (
    <ul onClick={onClickNewTask} className={[classes.list, items[0].colorId && classes.listItems].join(' ')}>
-      {console.log(items[0].colorId)}
 
       {items.map((item, index) => (
          <li

@@ -36,13 +36,19 @@
       "id": 1,
       "listId": 2,
       "text": "Изучить JavaScript",
-      "completed": true
+      "completed": false
     },
     {
       "id": 2,
       "listId": 2,
       "text": "Изучить паттерны проектирования",
       "completed": false
+    },
+    {
+      "listId": 2,
+      "text": "dasdfasd asd as",
+      "completed": false,
+      "id": 3
     }
   ],
   "colors": [

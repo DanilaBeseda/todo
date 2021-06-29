@@ -139,6 +139,13 @@ function App() {
     })
   }
 
+  function completeHandler(taskId, isCompleted) {
+    axios.patch('http://localhost:3001/tasks/' + taskId, { completed: isCompleted }).catch((err) => {
+      console.error(err)
+      alert('Не удалось отправить данные на сервер')
+    })
+  }
+
   return (
     <div className={classes.todo}>
 
@@ -169,6 +176,7 @@ function App() {
               onConfirm={confirmEditTaskHandler}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              onCompleteTask={completeHandler}
               isAllTasks
             />
           ))}
@@ -184,6 +192,7 @@ function App() {
               onConfirm={confirmEditTaskHandler}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              onCompleteTask={completeHandler}
             />
             : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
           }
