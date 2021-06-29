@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 import classes from './Task.module.scss'
 import loadingCls from '../../../commonStyles/loadingAnimation.module.scss'
 
-export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLoading, onCompleteTask }) => {
+export const Task = ({ task, listId, onRemoveTask, onConfirm, isListLoading, isTaskLoading, onCompleteTask }) => {
    const [isEdit, setIsEdit] = useState(false)
    const [inputValue, setInputValue] = useState(task.text)
    const [isCompleted, setIsCompleted] = useState(task.completed)
@@ -18,7 +18,6 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
 
    function removeTask(listId, taskId) {
       if (window.confirm('Вы действительно хотите удалить задачу?')) {
-         setIsLoading(true)
          onRemoveTask(listId, taskId)
       }
    }
@@ -29,7 +28,6 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
          return
       }
       setIsEdit(false)
-      setIsLoading(true)
 
       textareaRef.current.readOnly = true
       textareaRef.current.style.border = 'none'
@@ -54,7 +52,7 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
                </label>
             </div>
             <textarea rows="1" resize="none" ref={textareaRef} readOnly value={inputValue} onChange={(e) => setInputValue(e.target.value)}></textarea>
-            {!isLoading
+            {!isTaskLoading && !isListLoading
                ? <div className={classes.btns}>
                   {!isEdit
                      ? <>
@@ -76,7 +74,7 @@ export const Task = ({ task, listId, onRemoveTask, onConfirm, isLoading, setIsLo
                      </button>
                   }
                </div>
-               : <div className={loadingCls.loading}></div>
+               : <div style={{ marginLeft: "23px" }} className={loadingCls.loading}></div>
             }
          </div>
       </>

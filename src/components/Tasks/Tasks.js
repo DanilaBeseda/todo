@@ -5,7 +5,7 @@ import editIcon from '../../assets/img/edit.svg'
 
 import classes from './Tasks.module.scss'
 
-export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, onConfirm, isLoading, setIsLoading, onCompleteTask }) => (
+export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, onConfirm, isTaskLoading, isListLoading, onCompleteTask, isNewTaskLoading, isNewTaskVisible, setIsNewTaskVisible }) => (
    <div className={classes.tasks} >
       {list.color && <h2 style={{ color: list.color.hex }}>
          {list.name}
@@ -21,15 +21,22 @@ export const Tasks = ({ list, onEditTitle, onAddTask, isAllTasks, onRemoveTask, 
                   listId={list.id}
                   onRemoveTask={onRemoveTask}
                   onConfirm={onConfirm}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
+                  isTaskLoading={isTaskLoading}
+                  isListLoading={isListLoading}
                   onCompleteTask={onCompleteTask}
                />
             ))
             : !isAllTasks && <span className={classes.emptyList}>Задачи отсутствуют</span>
          }
       </div>
-      <NewTask key={list.id} list={list} onAddTask={onAddTask} />
+      {!isListLoading && <NewTask
+         key={list.id}
+         list={list}
+         onAddTask={onAddTask}
+         isNewTaskLoading={isNewTaskLoading}
+         isNewTaskVisible={isNewTaskVisible}
+         setIsNewTaskVisible={setIsNewTaskVisible}
+      />}
    </ div>
 )
 

@@ -13,7 +13,10 @@ function App() {
   const [lists, setLists] = useState(null)
   const [colors, setColors] = useState(null)
   const [activeList, setActiveList] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isTaskLoading, setIsTaskLoading] = useState(false)
+  const [isListLoading, setIsListLoading] = useState(false)
+  const [isNewTaskLoading, setIsNewTaksLoading] = useState(false)
+  const [isNewTaskVisible, setIsNewTaskVisible] = useState(false)
   const allTasks = [{ color: null, name: 'Все задачи', icon: 'list' }]
   const newTask = [{ color: null, name: 'Новый список', icon: 'plus', btn: true }]
   let history = useHistory()
@@ -34,20 +37,23 @@ function App() {
     if (lists && listId) {
       if (!lists[listId - 1]) {
         setActiveList(null)
-        history.push('/')
+        history.goForward()
+        alert('Нельзя вернуться к списку, который был удалён')
         return
       }
       const list = lists.find(list => list.id === Number(listId))
       setActiveList(list.id)
     } else setActiveList(null)
-  }, [location.pathname, lists])
+  }, [history, location.pathname, lists])
 
   function addList(newList) {
     setLists([...lists, newList])
-    history.push(`lists/${newList.id}`)
+    history.push(`/lists/${newList.id}`)
   }
 
-  function addTaskHandler(listId, newTask, setIsLoading, setIsVisible) {
+  function addTaskHandler(listId, newTask) {
+    setIsListLoading(true)
+    setIsNewTaksLoading(true)
     axios.post('http://localhost:3001/tasks', newTask).then(({ data }) => {
       const cloneLists = lists.map(list => {
         if (list.id === listId) {
@@ -56,8 +62,9 @@ function App() {
         return list
       })
       setLists(cloneLists)
-      setIsLoading(false)
-      setIsVisible(false)
+      setIsListLoading(false)
+      setIsNewTaksLoading(false)
+      setIsNewTaskVisible(false)
     }).catch(err => {
       console.error(err)
       alert('Не удалось добавить задачу')
@@ -66,15 +73,18 @@ function App() {
 
   function removeListHandler(id) {
     if (window.confirm('Вы действительно хотите удалить список?')) {
+      setIsListLoading(true)
       axios.delete('http://localhost:3001/lists/' + id).then(() => {
         const cloneLists = lists.filter(item => (item.id !== id))
         history.push(`/`)
         setLists(cloneLists)
+        setIsListLoading(false)
       })
     }
   }
 
   function removeTaskHandler(listId, taskId) {
+    setIsTaskLoading(true)
     axios.delete('http://localhost:3001/tasks/' + taskId).then(() => {
       const cloneLists = lists.map(list => {
         if (list.id === listId) {
@@ -83,7 +93,7 @@ function App() {
         return list
       })
       setLists(cloneLists)
-      setIsLoading(false)
+      setIsTaskLoading(false)
     }).catch((err) => {
       console.error(err)
       alert('Не удалось удалить задачу')
@@ -119,6 +129,7 @@ function App() {
   }
 
   function confirmEditTaskHandler(listId, taskId, value) {
+    setIsTaskLoading(true)
     axios.patch('http://localhost:3001/tasks/' + taskId, { text: value }).then(() => {
       const cloneLists = lists.map(list => {
         if (list.id === listId) {
@@ -132,7 +143,7 @@ function App() {
         return list
       })
       setLists(cloneLists)
-      setIsLoading(false)
+      setIsTaskLoading(false)
     }).catch((err) => {
       console.error(err)
       alert('Не удалочь изменить текст задачи')
@@ -150,13 +161,14 @@ function App() {
     <div className={classes.todo}>
 
       <div className={classes.sidebar}>
-        <TaskList active={!activeList} items={allTasks} onClickItem={() => history.push(`/`)} />
+        <TaskList active={!activeList} items={allTasks} onClickItem={() => location.pathname !== "/" && history.push(`/`)} />
         {lists
           ? <TaskList
             items={lists}
             onClickRemoveIcon={removeListHandler}
-            onClickItem={list => history.push(`/lists/${list.id}`)}
+            onClickItem={list => list.id !== activeList && history.push(`/lists/${list.id}`)}
             activeList={activeList}
+            isLoading={isListLoading}
             isRemovable
           />
           : <div className={loadingCls.loading}></div>
@@ -174,8 +186,11 @@ function App() {
               onAddTask={addTaskHandler}
               onRemoveTask={removeTaskHandler}
               onConfirm={confirmEditTaskHandler}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
+              isTaskLoading={isTaskLoading}
+              isListLoading={isListLoading}
+              isNewTaskLoading={isNewTaskLoading}
+              isNewTaskVisible={isNewTaskVisible}
+              setIsNewTaskVisible={setIsNewTaskVisible}
               onCompleteTask={completeHandler}
               isAllTasks
             />
@@ -190,8 +205,11 @@ function App() {
               onAddTask={addTaskHandler}
               onRemoveTask={removeTaskHandler}
               onConfirm={confirmEditTaskHandler}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
+              isTaskLoading={isTaskLoading}
+              isListLoading={isListLoading}
+              isNewTaskLoading={isNewTaskLoading}
+              isNewTaskVisible={isNewTaskVisible}
+              setIsNewTaskVisible={setIsNewTaskVisible}
               onCompleteTask={completeHandler}
             />
             : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
