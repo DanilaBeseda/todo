@@ -178,7 +178,7 @@ function App() {
 
       <main className={classes.main}>
         <Route exact path="/">
-          {lists && lists.map(list => (
+          {lists ? lists.map(list => (
             <Tasks
               key={list.id}
               list={list}
@@ -194,12 +194,14 @@ function App() {
               onCompleteTask={completeHandler}
               isAllTasks
             />
-          ))}
+          ))
+            : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
+          }
         </Route>
         <Route path="/lists/:id">
 
-          {lists
-            ? activeList && <Tasks
+          {lists && activeList &&
+            <Tasks
               list={lists[activeList - 1]}
               onEditTitle={editTitleHandler}
               onAddTask={addTaskHandler}
@@ -212,7 +214,6 @@ function App() {
               setIsNewTaskVisible={setIsNewTaskVisible}
               onCompleteTask={completeHandler}
             />
-            : <span>write <strong>yarn run fake-server</strong> in the terminal</span>
           }
         </Route>
       </main>
